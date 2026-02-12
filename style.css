@@ -1,0 +1,820 @@
+:root {
+    --primary-color: #ffd700;
+    /* Gold */
+    --secondary-color: #ffa500;
+    /* Vibrant Orange-Gold */
+    --accent-color: #ff0000;
+    /* Bright Red for Rose */
+    --text-color: #fff8dc;
+    /* Cornsilk text */
+    --white: #ffffff;
+    --gradient-bg: radial-gradient(circle at center, #0a1e36 0%, #050a14 100%);
+    /* Deep Royal Blue */
+    --glass-bg: rgba(10, 30, 60, 0.75);
+    --glass-border: rgba(255, 215, 0, 0.6);
+    /* Brighter Gold Border */
+    --shadow: 0 0 50px rgba(255, 215, 0, 0.2);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Playfair Display', serif;
+    background: var(--gradient-bg);
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    color: var(--text-color);
+    position: relative;
+}
+
+#heartCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+    /* Let clicks pass through canvas */
+}
+
+.card {
+    position: relative;
+    width: 85vw;
+    max-width: 280px;
+    height: auto;
+    max-height: 75vh;
+    min-height: auto;
+
+    background: rgba(10, 15, 30, 0.85);
+    border-radius: 12px;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.3),
+        inset 0 0 50px rgba(0, 0, 0, 0.5);
+    border: 2px solid rgba(255, 215, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: clamp(0.5rem, 1.5vw, 0.8rem);
+    gap: clamp(0.2rem, 0.6vw, 0.4rem);
+    box-sizing: border-box;
+    backdrop-filter: blur(10px);
+    z-index: 10;
+    margin: auto;
+    transform-style: preserve-3d;
+    transform: rotateX(0) rotateY(0);
+    transition: box-shadow 0.3s ease;
+    will-change: transform;
+    overflow: hidden;
+}
+
+/* Ornaments */
+.card::before {
+    content: '⚜️';
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    font-size: 2rem;
+    filter: drop-shadow(0 0 10px gold);
+    animation: pulse 3s infinite;
+}
+
+.content::after {
+    content: '⚜️';
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    font-size: 2rem;
+    transform: rotate(180deg);
+    filter: drop-shadow(0 0 10px gold);
+    animation: pulse 3s infinite;
+}
+
+.content:hover {
+    box-shadow: 0 0 100px rgba(255, 215, 0, 0.5), inset 0 0 50px rgba(255, 215, 0, 0.2);
+}
+
+h1 {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: clamp(0.85rem, 2.8vw, 1.3rem);
+    margin-bottom: 0.1rem;
+    color: var(--primary-color);
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 40px rgba(255, 165, 0, 0.6);
+    line-height: 1.05;
+    animation: textGlow 3s infinite alternate;
+    text-align: center;
+    padding: 0 0.2rem;
+}
+
+@keyframes textGlow {
+    from {
+        text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+    }
+
+    to {
+        text-shadow: 0 0 40px rgba(255, 215, 0, 1), 0 0 80px rgba(255, 165, 0, 0.8);
+    }
+}
+
+p {
+    font-size: clamp(0.65rem, 1.6vw, 0.8rem);
+    margin-bottom: 0.3rem;
+    color: var(--text-color);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    font-style: italic;
+    text-align: center;
+    line-height: 1.2;
+    padding: 0 0.2rem;
+}
+
+/* Parallax Background */
+.parallax-bg {
+    position: absolute;
+    top: -10%;
+    left: -10%;
+    width: 120%;
+    height: 120%;
+    background-image: url('beauty_beast_castle_ballroom.png');
+    /* Ensure this file exists or use a fallback */
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('beauty_beast_castle_ballroom.png');
+    /* Added gradient overlay */
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+    transition: transform 0.1s ease-out;
+}
+
+/* Styles integrated from rosa_bellaybestia-main */
+
+/* Estilos para los pétalos */
+.petal {
+    position: absolute;
+    will-change: transform;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    overflow: hidden;
+    filter: drop-shadow(0 0 10px rgb(255, 100, 152));
+    z-index: 20;
+    /* Ensure on top of rose wrapper content */
+}
+
+.rose-wrapper img {
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+}
+
+/* Estilos para el cristal */
+.cristal {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 100px 100px 30px 30px;
+    box-sizing: border-box;
+    z-index: 10;
+    transform-style: preserve-3d;
+    overflow: hidden;
+    box-shadow:
+        inset 0 0 50px rgba(255, 255, 255, 0.1),
+        0 0 15px rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    pointer-events: none;
+}
+
+/* ... (keep pseudo elements for cristal) ... */
+
+/* Rose Wrapper matches dome exactly */
+.rose-wrapper {
+    position: relative;
+    width: 200px;
+    height: 350px;
+    margin: 0 auto 1rem;
+    animation: float 5s ease-in-out infinite;
+    border-radius: 100px 100px 30px 30px;
+    /* Exact dome shape */
+    overflow: hidden;
+    z-index: 20;
+    transform-style: preserve-3d;
+}
+
+/* Internal floor shadow - constrained by overflow hidden of wrapper */
+.rose-wrapper::before {
+    content: '';
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    /* Smaller than container width (200px) */
+    height: 15px;
+    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.6) 0%, transparent 70%);
+    border-radius: 50%;
+    z-index: 5;
+}
+
+/* Reflejo en el vidrio */
+.cristal::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background: linear-gradient(to right,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.1) 20%,
+            rgba(255, 255, 255, 0) 40%);
+    transform: skewX(-15deg) translateX(-200%);
+    animation: reflejo 10s ease-in-out infinite;
+}
+
+/* Borde brillante del vidrio */
+.cristal::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 100px 100px 30px 30px;
+    box-shadow:
+        inset 0 0 40px 10px rgba(255, 255, 255, 0.1),
+        inset 0 0 20px rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    pointer-events: none;
+}
+
+/* Animación del reflejo */
+@keyframes reflejo {
+    0% {
+        transform: skewX(-15deg) translateX(-200%);
+    }
+
+    30% {
+        transform: skewX(-15deg) translateX(200%);
+    }
+
+    100% {
+        transform: skewX(-15deg) translateX(200%);
+    }
+}
+
+/* Fuente de luz */
+.light-source {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+    filter: blur(15px);
+    box-shadow: 0 0 60px 30px rgba(255, 255, 255, 0.2);
+    z-index: 5;
+    opacity: 0.6;
+    pointer-events: none;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: pulseLight 8s ease-in-out infinite;
+}
+
+/* Animación del pulso de luz */
+@keyframes pulseLight {
+    0% {
+        opacity: 0.5;
+        transform: translate(-50%, -50%) scale(0.9);
+    }
+
+    50% {
+        opacity: 0.7;
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    100% {
+        opacity: 0.5;
+        transform: translate(-50%, -50%) scale(0.9);
+    }
+}
+
+/* Haz de luz */
+.light-beam {
+    position: absolute;
+    width: 300px;
+    height: 500px;
+    background: radial-gradient(ellipse at top, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 50%, rgba(255, 255, 255, 0) 70%);
+    transform-origin: top center;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0) rotate(0deg);
+    z-index: 1;
+    opacity: 0.8;
+    pointer-events: none;
+    filter: blur(10px);
+}
+
+/* Sombra ambiental */
+.ambient-shadow {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 20px;
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 70%);
+    pointer-events: none;
+    z-index: 1;
+    filter: blur(5px);
+}
+
+/* Base del cristal */
+.base {
+    position: absolute;
+    width: 220px;
+    height: 25px;
+    border-radius: 50%;
+    background: linear-gradient(to bottom,
+            rgba(50, 50, 50, 0.8) 0%,
+            rgba(20, 20, 20, 0.9) 100%);
+    display: none;
+}
+
+/* Tallo */
+#talloc {
+    position: absolute;
+    bottom: 3px;
+    /* Pegado al suelo */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    height: 100px;
+    width: 40px;
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+#tallo {
+    height: 100%;
+    width: 100%;
+    filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.5));
+}
+
+/* Container specifically for the head petals, aligned with stem top */
+#rose-petals-container {
+    position: absolute;
+    /* El tallo mide 160px y está a 30px del fondo. 
+       Top del tallo = 360 - 30 - 160 = 170px desde arriba.
+       Queremos que el centro de los pétalos esté en 170px.
+       170px / 360px ~= 47% */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 15;
+    pointer-events: none;
+}
+
+/* Styles for individual petals from main.js construction */
+.petal {
+    position: absolute;
+    will-change: transform, top, left;
+    filter: drop-shadow(0 0 5px rgba(255, 105, 180, 0.5));
+    /* Pink glow */
+}
+
+/* Ensure images inside petals are sized correctly */
+.petal img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+
+/* Container for physics petals */
+#falling-petals-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 18;
+    /* Between rose and glass */
+    pointer-events: none;
+}
+
+
+/* Animación para los reflejos del cristal */
+@keyframes pulse {
+    0% {
+        opacity: 0.1;
+        transform: scale(0.8);
+    }
+
+    50% {
+        opacity: 0.3;
+        transform: scale(1.2);
+    }
+
+    100% {
+        opacity: 0.1;
+        transform: scale(0.8);
+    }
+}
+
+/* Rose Wrapper & SVG */
+.rose-wrapper {
+    position: relative;
+    width: clamp(70px, 18vw, 100px);
+    height: clamp(120px, 30vw, 170px);
+    margin: 0 auto 0.2rem;
+    animation: float 5s ease-in-out infinite;
+    /* Match dome shape for clipping */
+    border-radius: 50px 50px 0 0;
+    overflow: hidden;
+    z-index: 20;
+    transform-style: preserve-3d;
+}
+
+/* Bottom fade removed */
+
+/* Removed old rose CSS animations as we are using the new one */
+
+/* Dancing Shadows */
+.shadows-container {
+    position: absolute;
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 400px;
+    z-index: 0;
+    /* Behind content */
+    pointer-events: none;
+    opacity: 0.5;
+    filter: blur(8px);
+    /* Dreamy look */
+    animation: shadowPulse 5s infinite alternate;
+}
+
+/* Ajuste general para escalar todo si la pantalla es muy pequeña */
+@media (max-width: 350px) {
+    .rose-wrapper {
+        transform: scale(0.8);
+    }
+}
+
+@keyframes shadowPulse {
+    from {
+        opacity: 0.4;
+        transform: translateX(-50%) scale(1);
+    }
+
+    to {
+        opacity: 0.6;
+        transform: translateX(-50%) scale(1.05);
+    }
+}
+
+.dancing-couple {
+    width: 100%;
+    height: 100%;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+/* Lyrics Box */
+.lyrics-box {
+    min-height: clamp(35px, 5vh, 50px);
+    margin-bottom: 0.4rem;
+    padding: clamp(5px, 1vw, 8px);
+    border-top: 2px solid rgba(255, 215, 0, 0.4);
+    border-bottom: 2px solid rgba(255, 215, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+    width: 100%;
+}
+
+#currentLyric {
+    font-size: clamp(0.65rem, 1.6vw, 0.85rem);
+    font-weight: 400;
+    margin: 0;
+    color: #ffd700;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    text-align: center;
+    line-height: 1.2;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: clamp(0.6rem, 1.5vw, 1rem);
+    width: 100%;
+}
+
+.glow-button {
+    position: relative;
+    padding: clamp(0.35rem, 1.2vw, 0.6rem) clamp(0.7rem, 2.2vw, 1.3rem);
+    font-size: clamp(0.6rem, 1.5vw, 0.75rem);
+    font-weight: 700;
+    color: #030818;
+    background: linear-gradient(45deg, #ffd700, #ffa500, #ffd700);
+    background-size: 200% 200%;
+    animation: gradientShift 3s infinite;
+    border: 2px solid #b8860b;
+    border-radius: 4px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+    font-family: 'Cinzel Decorative', serif;
+    letter-spacing: 0.1px;
+    z-index: 20;
+    white-space: nowrap;
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.glow-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 50px rgba(255, 215, 0, 0.9);
+}
+
+.glow-button:active {
+    transform: scale(0.95);
+}
+
+.glow-button::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(to right,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.8) 50%,
+            rgba(255, 255, 255, 0) 100%);
+    transform: rotate(45deg);
+    transition: all 0.5s;
+    opacity: 0;
+}
+
+.glow-button:hover::after {
+    opacity: 1;
+    left: 100%;
+    transition: 0.7s;
+}
+
+/* Loading Overlay */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #030818;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 1.5s ease, visibility 1.5s ease;
+}
+
+.loading-overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.heart-loader {
+    font-size: 5rem;
+    animation: castleFloat 2s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.6));
+}
+
+@keyframes castleFloat {
+
+    0%,
+    100% {
+        transform: translateY(0) scale(1);
+        filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.6));
+    }
+
+    50% {
+        transform: translateY(-15px) scale(1.05);
+        filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.9));
+    }
+}
+
+.loading-text {
+    margin-top: 1rem;
+    font-size: 1.5rem;
+    color: var(--text-color);
+    animation: pulse 2s infinite;
+}
+
+@keyframes heartBeat {
+    0% {
+        transform: scale(1);
+    }
+
+    14% {
+        transform: scale(1.3);
+    }
+
+    28% {
+        transform: scale(1);
+    }
+
+    42% {
+        transform: scale(1.3);
+    }
+
+    70% {
+        transform: scale(1);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.6;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.6;
+    }
+}
+
+/* 3D Tilt Container */
+.container {
+    perspective: 1000px;
+    /* Essential for 3D effect */
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+}
+
+.content {
+    /* Keep existing styles */
+    text-align: center;
+    background: var(--glass-bg);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--glass-border);
+    padding: 3rem;
+    border-radius: 24px;
+    box-shadow: var(--shadow);
+    max-width: 600px;
+    width: 100%;
+
+    /* Modified for Tilt */
+    transform-style: preserve-3d;
+    transform: rotateX(0) rotateY(0);
+    /* removed transition: transform here to make tilt updating instant/smooth */
+    transition: box-shadow 0.3s ease;
+    /* Only animate shadow */
+    will-change: transform;
+}
+
+/* Specific button styles */
+.glow-button.secondary {
+    background: linear-gradient(45deg, #ff8fa3, #ffccd5);
+    /* Lighter pink */
+    color: var(--text-color);
+    box-shadow: 0 4px 15px rgba(255, 143, 163, 0.4);
+}
+
+.glow-button.secondary:hover {
+    box-shadow: 0 6px 20px rgba(255, 143, 163, 0.6);
+}
+
+/* The runaway button needs absolute positioning when it starts moving */
+#noBtn {
+    position: relative;
+    /* Starts relative in flex container */
+    transition: all 0.2s ease;
+    /* Smooth movement when running away */
+}
+
+/* Animations - Existing ones below */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1s ease forwards;
+}
+
+.delay-1 {
+    animation-delay: 0.5s;
+}
+
+.delay-2 {
+    animation-delay: 1s;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Response Message Animation */
+.success-message {
+    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes popIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@media (max-width: 768px) {
+    .card {
+        width: 95vw;
+        min-height: auto;
+        padding: 1rem;
+    }
+
+    .button-container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .glow-button {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    /* Disable complex 3D tilt on mobile for performance/usability */
+    .card {
+        transform: none !important;
+    }
+
+    .shadows-container {
+        width: 90vw;
+        opacity: 0.3;
+    }
+}
+
+@media (max-width: 480px) {
+    .card {
+        width: 98vw;
+        padding: 0.8rem;
+    }
+
+    .rose-wrapper {
+        width: clamp(120px, 35vw, 180px);
+        height: clamp(200px, 55vw, 300px);
+    }
+}

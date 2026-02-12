@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Ti 🌹</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=20">
+</head>
+
+<body>
+    <canvas id="heartCanvas"></canvas> <!-- Will reuse for petals -->
+
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="heart-loader">🏰</div>
+        <p class="loading-text">Abriendo el castillo encantado...</p>
+    </div>
+
+    <!-- Background Audio -->
+    <audio id="bgMusic" loop>
+        <source src="./cancion/Elvis Presley  Can't Help Falling In Love [Sub. Español].mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="parallax-bg"></div>
+    <div class="container">
+        <!-- Dancing Shadows Background (Keeping subtle Overlay) -->
+        <div class="shadows-container">
+            <svg class="dancing-couple" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <path d="M70,180 Q80,100 70,60 Q90,50 110,60 Q100,100 110,180 Z" fill="#000" opacity="0.3"
+                    class="beast-shadow">
+                    <animateTransform attributeName="transform" type="rotate" values="-2 90 180; 2 90 180; -2 90 180"
+                        dur="4s" repeatCount="indefinite" />
+                </path>
+                <path d="M120,180 Q130,120 120,70 Q110,60 100,70 Q90,120 100,180 Z" fill="#000" opacity="0.3"
+                    class="belle-shadow">
+                    <animateTransform attributeName="transform" type="rotate" values="2 110 180; -2 110 180; 2 110 180"
+                        dur="4s" repeatCount="indefinite" />
+                </path>
+                <ellipse cx="90" cy="170" rx="30" ry="80" fill="black" opacity="0.2" transform="rotate(-5 90 180)" />
+                <ellipse cx="110" cy="170" rx="25" ry="75" fill="black" opacity="0.2" transform="rotate(5 110 180)" />
+            </svg>
+        </div>
+
+        <div class="card tilt-card">
+            <div class="rose-wrapper">
+                <!-- Rose implementation from rosa_bellaybestia-main -->
+                <div class="ambient-shadow"></div>
+                <div class="light-beam"></div>
+                <div class="light-source"></div>
+                <div class="cristal">
+                    <div class="base"></div>
+                </div>
+
+                <!-- Stem (New Realistic One) -->
+                <div id="talloc">
+                    <img id="tallo" src="tallo.svg" alt="Tallo de rosa">
+                </div>
+
+                <!-- Container for rose petals (Head + Falling) -->
+                <div id="rose-petals-container"></div>
+            </div>
+
+            <h1 id="mainTitle" class="fade-in">¿Quieres ser mi Bella? 👑</h1>
+            <p id="subTitle" class="fade-in delay-1">"Tale as old as time..."</p>
+
+            <div id="lyricsContainer" class="lyrics-box fade-in delay-1">
+                <p id="currentLyric">🎵 Haz clic para comenzar la magia... 🎵</p>
+            </div>
+
+            <div class="button-container fade-in delay-2">
+                <button id="yesBtn" class="glow-button">
+                    <span class="btn-text">¡Sí, mi Bestia! 💙</span>
+                    <div class="btn-particles"></div>
+                </button>
+                <button id="noBtn" class="glow-button secondary">
+                    <span class="btn-text">No 🥀</span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="config.js"></script>
+    <script src="GlassEffects.js"></script>
+    <script src="PetalPhysics.js"></script>
+    <script src="main.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
