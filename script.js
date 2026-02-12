@@ -284,9 +284,8 @@ noBtn.addEventListener('touchstart', (e) => {
 });
 
 
-// --- Confetti/Heart Explosion function ---
 function createExplosion(x, y) {
-    for (let i = 0; i < 150; i++) { // More sparkles
+    for (let i = 0; i < 50; i++) { // Optimized: 50 particles instead of 150
         particles.push(new Particle(x, y, 'explosion'));
     }
 }
@@ -296,11 +295,12 @@ yesBtn.addEventListener('click', (e) => {
     const rect = yesBtn.getBoundingClientRect();
     createExplosion(rect.left + rect.width / 2, rect.top + rect.height / 2);
 
-    // More fireworks
+    // More fireworks (Optimized: less frequent)
     let fireworksInterval = setInterval(() => {
-        createExplosion(Math.random() * width, Math.random() * height * 0.8);
-    }, 200);
-    setTimeout(() => clearInterval(fireworksInterval), 4000);
+        // Limit randomness to prevent off-screen spawning
+        createExplosion(Math.min(width - 50, Math.max(50, Math.random() * width)), Math.random() * height * 0.7);
+    }, 400); // Slower interval (400ms instead of 200ms)
+    setTimeout(() => clearInterval(fireworksInterval), 3000); // Shorter duration
 
     // Fade out text
     mainTitle.style.opacity = 0;
