@@ -31,22 +31,37 @@ let hasInteracted = false;
 
 // Lyrics for "Can't Help Falling in Love" - Precise Sync
 const lyrics = [
-    { text: "Wise men say...", time: 5.5 },
-    { text: "Only fools rush in", time: 10.5 },
-    { text: "But I can't help", time: 17 },
-    { text: "Falling in love with you", time: 22.5 },
-    { text: "Shall I stay?", time: 31.5 },
-    { text: "Would it be a sin?", time: 38 },
-    { text: "If I can't help", time: 45 },
-    { text: "Falling in love with you...", time: 51 },
-    { text: "Like a river flows", time: 60 },
-    { text: "Surely to the sea", time: 65.5 },
-    { text: "Darling so it goes", time: 72 },
-    { text: "Some things are meant to be", time: 78 },
-    { text: "Take my hand", time: 86.5 },
-    { text: "Take my whole life too", time: 93 },
-    { text: "For I can't help", time: 99.5 },
-    { text: "Falling in love with you", time: 105.5 }
+    { text: "Wise men say...", time: 8.8 },
+    { text: "Only fools rush in", time: 14.0 },
+    { text: "But I can't help", time: 20.3 },
+    { text: "Falling in love with you", time: 26.6 },
+    { text: "Shall I stay?", time: 37.0 },
+    { text: "Would it be a sin?", time: 43.5 },
+    { text: "If I can't help", time: 51.0 },
+    { text: "Falling in love with you", time: 57.0 },
+
+    { text: "Like a river flows", time: 65.5 },
+    { text: "Surely to the sea", time: 71.8 },
+    { text: "Darling so it goes", time: 78.0 },
+    { text: "Some things are meant to be", time: 84.4 },
+
+    { text: "Take my hand", time: 92.8 },
+    { text: "Take my whole life too", time: 99.0 },
+    { text: "For I can't help", time: 106.0 },
+    { text: "Falling in love with you", time: 112.5 },
+
+    { text: "Like a river flows", time: 120.0 },
+    { text: "Surely to the sea", time: 125.3 },
+    { text: "Darling so it goes", time: 131.6 },
+    { text: "Some things are meant to be", time: 137.0 },
+
+    { text: "Take my hand", time: 146.3 },
+    { text: "Take my whole life too", time: 152.6 },
+    { text: "For I can't help", time: 159.0 },
+    { text: "Falling in love with you", time: 165.2 },
+
+    { text: "For I can't help", time: 175.7 },
+    { text: "Falling in love with you", time: 182.0 }
 ];
 
 function updateLyrics() {
